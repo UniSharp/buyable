@@ -83,4 +83,24 @@ class BuyableTest extends TestCase
             'stock' => 5,
         ]);
     }
+
+    public function testUpdateBuyableModel()
+    {
+        $product = Product::create([
+            'name' => 'product A',
+            'price' => 20,
+            'stock' => 5,
+        ]);
+
+        $product->price = 1;
+        $product->stock = 1;
+        $product->save();
+
+        $this->assertDatabaseHas('specs', [
+            'buyable_type' => 'product',
+            'buyable_id' => $product->id,
+            'price' =>  1,
+            'stock' => 1,
+        ]);
+    }
 }
