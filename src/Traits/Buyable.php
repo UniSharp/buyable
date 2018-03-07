@@ -9,6 +9,7 @@ trait Buyable
     protected $specAttributes = ['spec', 'price', 'stock'];
     protected $orignialSpec;
     protected $spec;
+    protected $specified = false;
 
     public static function bootBuyable()
     {
@@ -38,6 +39,22 @@ trait Buyable
 
         $key = $key == 'spec' ? 'name' : $key;
         $this->spec[$key] = $value;
+
+        $this->specified = true;
+    }
+
+    public function getSpec($key)
+    {
+        if (!($this->specified || $this->isSingleSpec())) {
+            throw new InvalidArgumentException("Didn't specify a spec or it's not a single spec buyable model");
+        }
+
+        $key = $key == 'spec' ? 'name' : $key;
+        if ($this->isSingleSpec()) {
+            $this->originalSpec = $this->specs->first();
+        }
+
+        return $this->spec[$key] ?? $this->originalSpec[$key];
     }
 
     public function fill(array $attributes)
@@ -50,7 +67,7 @@ trait Buyable
         }
 
         array_forget($attributes, $this->specAttributes);
-        parent::fill($attributes);
+        return parent::fill($attributes);
     }
 
     public function getSpecDirty()
@@ -60,7 +77,7 @@ trait Buyable
 
     public function isSingleSpec()
     {
-        return $this->spec()->count() == 1;
+        return $this->specs->count() == 1;
     }
 
     public function setAttribute($key, $value)
@@ -71,6 +88,15 @@ trait Buyable
         }
 
         return parent::setAttribute($key, $value);
+    }
+
+    public function getAttribute($key)
+    {
+        if (in_array($key, $this->specAttributes)) {
+            return $this->getSpec($key);
+        }
+
+        return parent::getAttribute($key);
     }
 
     public function isSpecDirty()
@@ -88,5 +114,25 @@ trait Buyable
             $this->fireModelEvent('saved', false);
             $this->fireModelEvent('updated', false);
         }
+
+        return true;
+    }
+
+    public function specify($spec)
+    {
+        switch (true) {
+            case $spec instanceof Model:
+                $this->originalSpec = $spec;
+                break;
+            case is_numeric($spec):
+                $this->originalSpec = $this->specs->where('id', $spec)->first();
+                break;
+            case is_string($spec):
+                $this->originalSpec = $this->specs->where('name', $spec)->first();
+                break;
+        }
+
+        $this->specified = true;
+        return $this;
     }
 }

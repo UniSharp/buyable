@@ -1,6 +1,8 @@
 <?php
 namespace UniSharp\Buyable\Tests\Feature;
 
+use InvalidArgumentException;
+use UniSharp\Buyable\Models\Spec;
 use UniSharp\Buyable\Tests\TestCase;
 use UniSharp\Buyable\Tests\Fixtures\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -102,5 +104,96 @@ class BuyableTest extends TestCase
             'price' =>  1,
             'stock' => 1,
         ]);
+    }
+
+    public function testUpdateBuyableModelByUpdateQueryBuilder()
+    {
+        $product = Product::create([
+            'name' => 'product A',
+        ]);
+
+        $product->update([
+            'spec' => '黑',
+            'price' => 1,
+            'stock' => 1,
+        ]);
+
+        $product->update([
+            'spec' => '白',
+            'price' => 2,
+            'stock' => 2,
+        ]);
+
+        $this->assertDatabaseHas('specs', [
+            'buyable_type' => 'product',
+            'buyable_id' => $product->id,
+            'name' => '黑',
+            'price' =>  1,
+            'stock' => 1,
+        ]);
+
+        $this->assertDatabaseHas('specs', [
+            'buyable_type' => 'product',
+            'buyable_id' => $product->id,
+            'name' => '白',
+            'price' =>  2,
+            'stock' => 2,
+        ]);
+    }
+
+    public function testGetBuyableModelAttributeWithSingleSpec()
+    {
+        $product = Product::create([
+            'name' => 'product A',
+            'price' => 20,
+            'stock' => 5,
+        ]);
+
+        $this->assertEquals(20, Product::find($product->id)->price);
+    }
+
+    public function testGetBuyableModelAttributeWithoutSpecifySpec()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $product = Product::create([
+            'name' => 'product A',
+        ]);
+
+        $product->update([
+            'spec' => '黑',
+            'price' => 1,
+            'stock' => 1,
+        ]);
+
+        $product->update([
+            'spec' => '白',
+            'price' => 2,
+            'stock' => 2,
+        ]);
+
+        $this->assertEquals(2, Product::find($product->id)->price);
+    }
+
+    public function testGetBuyableModelAttributeWithSpecifySpec()
+    {
+        $product = Product::create([
+            'name' => 'product A',
+        ]);
+
+        $product->update([
+            'spec' => '黑',
+            'price' => 1,
+            'stock' => 1,
+        ]);
+
+        $product->update([
+            'spec' => '白',
+            'price' => 2,
+            'stock' => 2,
+        ]);
+
+        $this->assertEquals(1, Product::find($product->id)->specify('黑')->price);
+        $this->assertEquals(2, Product::find($product->id)->specify(Spec::whereName('白')->first()->id)->price);
     }
 }
