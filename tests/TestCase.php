@@ -2,6 +2,8 @@
 namespace UniSharp\Buyable\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
+use UniSharp\Buyable\Providers\BuyableServiceProvider;
+use UniSharp\Buyable\Tests\Fixtures\Providers\TestingServiceProvider;
 
 abstract class TestCase extends Orchestra
 {
@@ -13,5 +15,14 @@ abstract class TestCase extends Orchestra
             'database' => ':memory:',
             'prefix'   => '',
         ]);
+    }
+
+
+    protected function getPackageProviders($app)
+    {
+        return [
+            BuyableServiceProvider::class,
+            TestingServiceProvider::class,
+        ];
     }
 }
