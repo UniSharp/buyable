@@ -24,6 +24,12 @@ trait Buyable
                 $model->specs()->updateOrCreate(['name' => $model->getSpecDirty()['name']], $model->getSpecDirty());
             }
         });
+
+        static::deleted(function ($model) {
+            if ($model->isSpecDirty()) {
+                $model->specs()->delete();
+            }
+        });
     }
 
     public function specs()
