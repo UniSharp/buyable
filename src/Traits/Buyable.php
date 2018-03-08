@@ -6,7 +6,7 @@ use InvalidArgumentException;
 
 trait Buyable
 {
-    protected $specAttributes = ['spec', 'price', 'stock'];
+    protected $specAttributes = ['spec', 'price', 'stock', 'sku'];
     protected $orignialSpec;
     protected $spec;
     protected $specified = false;

@@ -71,6 +71,7 @@ class BuyableTest extends TestCase
             'spec' => '黑色',
             'price' => 20,
             'stock' => 5,
+            'sku' => 'B-1',
         ]);
 
         $this->assertDatabaseHas('products', [
@@ -83,6 +84,7 @@ class BuyableTest extends TestCase
             'name' => '黑色',
             'price' =>  20,
             'stock' => 5,
+            'sku' => 'B-1',
         ]);
     }
 
@@ -96,6 +98,7 @@ class BuyableTest extends TestCase
 
         $product->price = 1;
         $product->stock = 1;
+        $product->sku = 'B-2';
         $product->save();
 
         $this->assertDatabaseHas('specs', [
@@ -103,6 +106,7 @@ class BuyableTest extends TestCase
             'buyable_id' => $product->id,
             'price' =>  1,
             'stock' => 1,
+            'sku' => 'B-2'
         ]);
     }
 
@@ -116,12 +120,14 @@ class BuyableTest extends TestCase
             'spec' => '黑',
             'price' => 1,
             'stock' => 1,
+            'sku' => 'B-1',
         ]);
 
         $product->update([
             'spec' => '白',
             'price' => 2,
             'stock' => 2,
+            'sku' => 'W-1',
         ]);
 
         $this->assertDatabaseHas('specs', [
@@ -130,6 +136,7 @@ class BuyableTest extends TestCase
             'name' => '黑',
             'price' =>  1,
             'stock' => 1,
+            'sku' => 'B-1',
         ]);
 
         $this->assertDatabaseHas('specs', [
@@ -138,6 +145,7 @@ class BuyableTest extends TestCase
             'name' => '白',
             'price' =>  2,
             'stock' => 2,
+            'sku' => 'W-1',
         ]);
     }
 
