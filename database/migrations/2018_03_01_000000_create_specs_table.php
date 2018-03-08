@@ -21,6 +21,6 @@ class CreateSpecsTable extends Migration
 
     public function down()
     {
-        Schema::dropTable('specs');
+        Schema::dropIfExists('specs');
     }
 }
