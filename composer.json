@@ -50,7 +50,7 @@
         },
         "laravel": {
             "providers": [
-                "UniSharp\\Buayable\\Providers\\BuyableServiceProvider"
+                "UniSharp\\Buyable\\Providers\\BuyableServiceProvider"
             ]
         }
     },
