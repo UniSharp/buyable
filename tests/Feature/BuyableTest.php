@@ -43,6 +43,35 @@ class BuyableTest extends TestCase
         ]);
     }
 
+    public function testStoreBuyable()
+    {
+        $product = Product::create([
+            'name' => 'Product A',
+            'vendor' => '廠商 A'
+        ]);
+
+        $this->assertDatabaseHas('buyables', [
+            'buyable_type' => 'product',
+            'buyable_id' => $product->id,
+            'vendor' => '廠商 A'
+        ]);
+
+        $this->assertEquals('廠商 A', $product->refresh()->vendor);
+    }
+
+    public function testUpdateBuyable()
+    {
+        $product = Product::create([
+            'name' => 'Product A',
+            'vendor' => '廠商 A'
+        ]);
+
+        $product->vendor = '廠商 B';
+        $product->save();
+
+        $this->assertEquals('廠商 B', $product->refresh()->vendor);
+    }
+
     public function testCreateBuyableModelWithDefaultSpec()
     {
         $product = Product::create([
