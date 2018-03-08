@@ -18,6 +18,6 @@ class CreateBuyablesTable extends Migration
 
     public function down()
     {
-        Schema::dropTable('specs');
+        Schema::dropIfExists('buyables');
     }
 }
