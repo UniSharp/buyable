@@ -209,18 +209,49 @@ trait Buyable
     public function specify($spec)
     {
         switch (true) {
-            case $spec instanceof Model:
-                $this->originalSpec = $spec;
-                break;
-            case is_numeric($spec):
-                $this->originalSpec = $this->specs->where('id', $spec)->first();
-                break;
-            case is_string($spec):
-                $this->originalSpec = $this->specs->where('name', $spec)->first();
-                break;
+        case $spec instanceof Model:
+            $this->originalSpec = $spec;
+            break;
+        case is_numeric($spec):
+            $this->originalSpec = $this->specs->where('id', $spec)->first();
+            break;
+        case is_string($spec):
+            $this->originalSpec = $this->specs->where('name', $spec)->first();
+            break;
         }
 
         $this->specified = true;
         return $this;
+    }
+
+    public function singleSpecToArray()
+    {
+        $array = [];
+        if ($this->isSingleSpec()) {
+            foreach ($this->specAttributes as $attribute) {
+                $array[$attribute] = $this->getSpec($attribute);
+            }
+        }
+
+        return $array;
+    }
+
+    public function buyableToArray()
+    {
+        foreach ($this->buyableAttributes as $attribute) {
+            $array[$attribute] = $this->getBuyable($attribute);
+        }
+
+        return $array;
+    }
+
+    public function toArray()
+    {
+        return array_merge(
+            $this->attributesToArray(),
+            $this->relationsToArray(),
+            $this->singleSpecToArray(),
+            $this->buyableToArray()
+        );
     }
 }
