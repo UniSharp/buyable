@@ -21,7 +21,7 @@ trait Buyable
     public static function bootBuyable()
     {
         static::addGlobalScope('with', function (Builder $query) {
-            return $query->with('specs', 'buyable');
+            return $query->with('specs');
         });
 
         static::created(function ($model) {
@@ -29,7 +29,7 @@ trait Buyable
                 $model->specs()->create($model->getSpecDirty());
             }
 
-            $model->buyable()->create($model->getBuyableDirty());
+            $model->buyableModel()->create($model->getBuyableDirty());
         });
 
         static::updated(function ($model) {
@@ -38,7 +38,7 @@ trait Buyable
             }
 
             if ($model->isBuyableDirty()) {
-                $model->buyable()->updateOrCreate(
+                $model->buyableModel()->updateOrCreate(
                     [
                         'buyable_type' => array_flip(Relation::$morphMap)[get_class($model)] ?? get_class($model),
                         'buyable_id' => $model->id
@@ -55,8 +55,8 @@ trait Buyable
         });
 
         static::retrieved(function ($model) {
-            if ($model->buyable) {
-                foreach ($model->buyable->toArray() as $key => $value) {
+            if ($model->buyableModel) {
+                foreach ($model->buyableModel->toArray() as $key => $value) {
                     $model->setOriginalBuyable($key, $value);
                 }
             }
@@ -68,7 +68,7 @@ trait Buyable
         return $this->morphMany(Spec::class, 'buyable');
     }
 
-    public function buyable()
+    public function buyableModel()
     {
         return $this->morphOne(BuyableModel::class, 'buyable');
     }
@@ -119,7 +119,7 @@ trait Buyable
             throw new InvalidArgumentException();
         }
 
-        return $this->buyable[$key] ?? $this->originalBuyable[$key];
+        return $this->buyable[$key] ?? $this->originalBuyable[$key] ?? null;
     }
 
     public function fill(array $attributes)
