@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Illuminate\Database\Eloquent\Builder;
 use UniSharp\Buyable\Contracts\ProductUnitContract;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use UniSharp\Buyable\Contracts\BuyableModelContract;
 
 trait Buyable
 {
@@ -223,6 +224,17 @@ trait Buyable
 
         $this->specified = true;
         return $this;
+    }
+
+    public function getSpecifiedSpec()
+    {
+        if ($this->isSingleSpec()) {
+            return $this->specs->first();
+        }
+
+        if ($this->specified) {
+            return $this->specs->where('id', $this->originalSpec['id']);
+        }
     }
 
     public function singleSpecToArray()
