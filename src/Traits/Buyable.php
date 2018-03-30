@@ -6,6 +6,7 @@ use UniSharp\Buyable\Models\Buyable as BuyableModel;
 
 use InvalidArgumentException;
 use Illuminate\Database\Eloquent\Builder;
+use UniSharp\Buyable\Contracts\ProductUnitContract;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 trait Buyable
@@ -65,12 +66,12 @@ trait Buyable
 
     public function specs()
     {
-        return $this->morphMany(Spec::class, 'buyable');
+        return $this->morphMany(get_class(resolve(ProductUnitContract::class)), 'buyable');
     }
 
     public function buyableModel()
     {
-        return $this->morphOne(BuyableModel::class, 'buyable');
+        return $this->morphOne(get_class(resolve(BuyableModelContract::class)), 'buyable');
     }
 
     public function setSpec($key, $value)
@@ -209,15 +210,15 @@ trait Buyable
     public function specify($spec)
     {
         switch (true) {
-        case $spec instanceof Model:
-            $this->originalSpec = $spec;
-            break;
-        case is_numeric($spec):
-            $this->originalSpec = $this->specs->where('id', $spec)->first();
-            break;
-        case is_string($spec):
-            $this->originalSpec = $this->specs->where('name', $spec)->first();
-            break;
+            case $spec instanceof Model:
+                $this->originalSpec = $spec;
+                break;
+            case is_numeric($spec):
+                $this->originalSpec = $this->specs->where('id', $spec)->first();
+                break;
+            case is_string($spec):
+                $this->originalSpec = $this->specs->where('name', $spec)->first();
+                break;
         }
 
         $this->specified = true;
