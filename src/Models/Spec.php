@@ -8,4 +8,9 @@ use UniSharp\Buyable\Contracts\ProductUnitContract;
 class Spec extends Model implements ProductUnitContract
 {
     protected $guarded = [];
+
+    public function buyable()
+    {
+        return $this->morphTo('buyable');
+    }
 }
