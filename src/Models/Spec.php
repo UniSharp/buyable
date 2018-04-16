@@ -8,6 +8,9 @@ use UniSharp\Buyable\Contracts\ProductUnitContract;
 class Spec extends Model implements ProductUnitContract
 {
     protected $guarded = [];
+    protected $casts = [
+        'price' => 'integer'
+    ];
 
     public function buyable()
     {
