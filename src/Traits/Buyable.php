@@ -13,7 +13,7 @@ use UniSharp\Buyable\Contracts\BuyableModelContract;
 trait Buyable
 {
     protected $buyableAttributes = ['vendor'];
-    protected $specAttributes = ['spec', 'price', 'stock', 'sku'];
+    protected $specAttributes = ['spec', 'price', 'stock', 'sku', 'sold_qty'];
     protected $orignialSpec;
     protected $spec;
     protected $specified = false;

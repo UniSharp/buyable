@@ -28,7 +28,7 @@ class BuyableTest extends TestCase
         $product->specs()->create([
             'name'  => '黑色',
             'price' =>  1,
-            'stock' => 0,
+            'stock' => 0
         ]);
 
         $this->assertDatabaseHas('products', [
@@ -40,6 +40,8 @@ class BuyableTest extends TestCase
             'buyable_id' => $product->id,
             'price' =>  1,
             'stock' => 0,
+            'sku'   => null,
+            'sold_qty' => 0
         ]);
     }
 
@@ -90,6 +92,8 @@ class BuyableTest extends TestCase
             'name' => 'default',
             'price' =>  20,
             'stock' => 5,
+            'sku'   => null,
+            'sold_qty' => 0
         ]);
     }
 
@@ -101,6 +105,7 @@ class BuyableTest extends TestCase
             'price' => 20,
             'stock' => 5,
             'sku' => 'B-1',
+            'sold_qty' => 2
         ]);
 
         $this->assertDatabaseHas('products', [
@@ -114,6 +119,7 @@ class BuyableTest extends TestCase
             'price' =>  20,
             'stock' => 5,
             'sku' => 'B-1',
+            'sold_qty' => 2
         ]);
     }
 
@@ -128,6 +134,7 @@ class BuyableTest extends TestCase
         $product->price = 1;
         $product->stock = 1;
         $product->sku = 'B-2';
+        $product->sold_qty = 2;
         $product->save();
 
         $this->assertDatabaseHas('specs', [
@@ -135,7 +142,8 @@ class BuyableTest extends TestCase
             'buyable_id' => $product->id,
             'price' =>  1,
             'stock' => 1,
-            'sku' => 'B-2'
+            'sku' => 'B-2',
+            'sold_qty' => 2
         ]);
     }
 
@@ -150,6 +158,7 @@ class BuyableTest extends TestCase
             'price' => 1,
             'stock' => 1,
             'sku' => 'B-1',
+            'sold_qty' => 2
         ]);
 
         $product->update([
@@ -157,6 +166,7 @@ class BuyableTest extends TestCase
             'price' => 2,
             'stock' => 2,
             'sku' => 'W-1',
+            'sold_qty' => 3
         ]);
 
         $this->assertDatabaseHas('specs', [
@@ -166,6 +176,7 @@ class BuyableTest extends TestCase
             'price' =>  1,
             'stock' => 1,
             'sku' => 'B-1',
+            'sold_qty' => 2
         ]);
 
         $this->assertDatabaseHas('specs', [
@@ -175,6 +186,7 @@ class BuyableTest extends TestCase
             'price' =>  2,
             'stock' => 2,
             'sku' => 'W-1',
+            'sold_qty' => 3
         ]);
     }
 
