@@ -54,6 +54,12 @@ $product->save();
 Specified one of model's specs
 
 ```php
+$spec = Spec::where('name', 'Black')->first();
+
+$product->specify($spec);
+
+$product->specify($spec->id);
+
 $product->specify('Black');
 ```
 
