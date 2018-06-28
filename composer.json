@@ -23,6 +23,7 @@
     },
     "require-dev": {
         "codedungeon/phpunit-result-printer": "^0.6.0",
+        "squizlabs/php_codesniffer": "3.*",
         "mockery/mockery": "^0.9.4",
         "sebastian/diff" : "^3.0.0",
         "phpunit/phpunit": "^7.0",
