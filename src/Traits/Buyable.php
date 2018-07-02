@@ -14,7 +14,7 @@ trait Buyable
 {
     protected $buyableAttributes = ['vendor'];
     protected $specAttributes = ['spec', 'price', 'stock', 'sku', 'sold_qty'];
-    protected $orignialSpec;
+    protected $originalSpec;
     protected $spec;
     protected $specified = false;
     protected $originalBuyable = [];
