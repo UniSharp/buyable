@@ -14,8 +14,8 @@ class CreateSpecsTable extends Migration
             $table->decimal('price');
             $table->string('sku')->nullable();
             $table->integer('sold_qty')->nullable()->default(0);
-            $table->morphs('buyable');
-            $table->unique(['buyable_type', 'buyable_id', 'name']);
+            $table->morphs('specifiable');
+            $table->unique(['specifiable_type', 'specifiable_id', 'name']);
             $table->timestamps();
         });
     }

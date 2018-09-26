@@ -36,8 +36,8 @@ class BuyableTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('specs', [
-            'buyable_type' => 'product',
-            'buyable_id' => $product->id,
+            'specifiable_type' => 'product',
+            'specifiable_id' => $product->id,
             'price' =>  1,
             'stock' => 0,
             'sku'   => null,
@@ -87,8 +87,8 @@ class BuyableTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('specs', [
-            'buyable_type' => 'product',
-            'buyable_id' => $product->id,
+            'specifiable_type' => 'product',
+            'specifiable_id' => $product->id,
             'name' => 'default',
             'price' =>  20,
             'stock' => 5,
@@ -113,8 +113,8 @@ class BuyableTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('specs', [
-            'buyable_type' => 'product',
-            'buyable_id' => $product->id,
+            'specifiable_type' => 'product',
+            'specifiable_id' => $product->id,
             'name' => '黑色',
             'price' =>  20,
             'stock' => 5,
@@ -138,8 +138,8 @@ class BuyableTest extends TestCase
         $product->save();
 
         $this->assertDatabaseHas('specs', [
-            'buyable_type' => 'product',
-            'buyable_id' => $product->id,
+            'specifiable_type' => 'product',
+            'specifiable_id' => $product->id,
             'price' =>  1,
             'stock' => 1,
             'sku' => 'B-2',
@@ -170,8 +170,8 @@ class BuyableTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('specs', [
-            'buyable_type' => 'product',
-            'buyable_id' => $product->id,
+            'specifiable_type' => 'product',
+            'specifiable_id' => $product->id,
             'name' => '黑',
             'price' =>  1,
             'stock' => 1,
@@ -180,8 +180,8 @@ class BuyableTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('specs', [
-            'buyable_type' => 'product',
-            'buyable_id' => $product->id,
+            'specifiable_type' => 'product',
+            'specifiable_id' => $product->id,
             'name' => '白',
             'price' =>  2,
             'stock' => 2,

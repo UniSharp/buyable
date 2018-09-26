@@ -67,7 +67,7 @@ trait Buyable
 
     public function specs()
     {
-        return $this->morphMany(get_class(resolve(ProductUnitContract::class)), 'buyable');
+        return $this->morphMany(get_class(resolve(ProductUnitContract::class)), 'specifiable');
     }
 
     public function buyableModel()
