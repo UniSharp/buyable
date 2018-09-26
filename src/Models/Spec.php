@@ -12,8 +12,8 @@ class Spec extends Model implements ProductUnitContract
         'price' => 'integer'
     ];
 
-    public function buyable()
+    public function specifiable()
     {
-        return $this->morphTo('buyable');
+        return $this->morphTo();
     }
 }
